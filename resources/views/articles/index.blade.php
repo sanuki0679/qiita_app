@@ -60,6 +60,27 @@
                     @endforeach
                 </ul>
             @endif 
+            @if (!empty($my_articles))
+                <ul>
+                    @foreach ($my_articles as $my_article)
+                        <li class="articles">
+                            <div class="user-wrapper">
+                                <img src= {{ $my_article->user->profile_image_url }} class="user-img">
+                                {{ $my_article->user->id }}さんが{{ \Carbon\Carbon::parse($my_article->created_at)->setTimezone('Asia/Tokyo')->format('Y年m月d日 H時i分s秒'); }}に投稿
+                            </div>
+                            <p>
+                                <a href="{{ route('articles.show', $my_article->id) }}">{{ $my_article->title }}</a>
+                            </p>
+                            <p>
+                                <i class="fas fa-tags"></i>
+                                @foreach ($my_article->tags as $my_article->tag)
+                                {{ $my_article_tag->name }};
+                                @endforeach
+                            </p>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
         </article>
 
         <aside class="aside-right">
