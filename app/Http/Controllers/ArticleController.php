@@ -115,7 +115,7 @@ class ArticleController extends Controller
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . config('qiita.token'),
             ],
             'json' => $data,
         ];
@@ -146,15 +146,15 @@ class ArticleController extends Controller
         // QIITA_URLの値を取得してURLを定義
         $url = config('qiita.url') . '/api/v2/items/' . $id;
 
-        // Client(接続する為のクラス)を生成
-        $client = new Client();
-
         // $optionsにトークンを指定
         $options = [
-            'header' => [
+            'headers' => [
                 'Authorization' => 'Bearer ' . config('qiita.token'),
             ],
         ];
+
+        // Client(接続する為のクラス)を生成
+        $client = new Client();
 
         try {
             // データを取得し、JSON形式からPHPの変数に変換
@@ -175,7 +175,31 @@ class ArticleController extends Controller
             return back();
         }
 
-        return view('articles.show')->with(compact('article'));
+        $method = 'GET';
+
+        // QIITA_URLの値をし取得してURLを定義
+        $url = config('qiita.url') . '/api/v2/authenticated_user/';
+
+        // $optionsにトークンを指定
+        $options = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('qiita.token'),
+            ],
+        ];
+
+        // Client(接続する為のクラス)を生成
+        $client = new Client();
+
+        try {
+            // データを取得し、JSON形式からPHPの変数に変換
+            $response = $client->request($method, $url, $options);
+            $body = $response->getBody();
+            $user = json_decode($body, false);
+        } catch (\Throwable $th) {
+            return back();
+        }
+
+        return view('articles.show')->with(compact('article', 'user'));
     }
 
     /**
@@ -193,7 +217,7 @@ class ArticleController extends Controller
 
         // $optionsにトークンを指定
         $options = [
-            'header' => [
+            'headers' => [
                 'Authorization' => 'Bearer ' . config('qiita.token'),
             ],
         ];
@@ -248,9 +272,10 @@ class ArticleController extends Controller
         ];
 
         $options = [
-            'header' => [
+            'headers' => [
                 'Authorization' => 'Bearer ' . config('qiita.token'),
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
             ],
             'json' => $date,
         ];
@@ -275,6 +300,27 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $method = 'DELETE';
+
+        // QIITA_URLの値を取得してURLを定義
+        $url = config('qiita.url') . '/api/v2/items/' . $id;
+
+        // $optionsにトークンを指定
+        $options = [
+            'headers' => [
+                'Authorization' => 'Bearer ' . config('qiita.token'),
+            ],
+        ];
+
+        // Client(接続する為のクラス)を生成
+        $client = new Client();
+
+        try {
+            $response = $client->request($method, $url, $options);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return back()->withErrors(['error' => '記事の削除に失敗しました']);
+        }
+
+        return redirect()->route('articles.index')->with('flash_message', '記事を削除しました');
     }
 }

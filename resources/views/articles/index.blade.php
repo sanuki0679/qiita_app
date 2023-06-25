@@ -73,9 +73,13 @@
                             </p>
                             <p>
                                 <i class="fas fa-tags"></i>
-                                @foreach ($my_article->tags as $my_article->tag)
+                                @foreach ($my_article->tags as $my_article_tag)
                                 {{ $my_article_tag->name }};
                                 @endforeach
+                            </p>
+                            <p>
+                                <i class="fas fa-thumbs-up"></i>
+                                LGTM {{ $my_article->likes_count }}
                             </p>
                         </li>
                     @endforeach

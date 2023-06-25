@@ -33,5 +33,15 @@
     </div>
         </article>
     </div>
+    @if ($article->user->permanent_id == $user->permanent_id)
+        <div class="my-article-button">
+            <button type="button" class="edit-button" onclick="location.href='{{ route('articles.edit', $article->id) }}'">編集する</button>
+            <button type="submit" class="delete-button" form="delete-form" onclick="if(!confirm('本当に削除していいですか？')){return false};">削除する</button>
+            <form action="{{ route('articles.destroy', $article->id) }}" method="post" id="delete-form">
+                @csrf
+                @method('DELETE')
+            </form>
+        </div>
+    @endif
     <button type="button" class="show-return-button" onclick="location.href='{{ route('articles.index') }}'">一覧へ戻る</button>
 @endsection

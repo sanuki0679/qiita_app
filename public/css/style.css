@@ -203,6 +203,33 @@ li {
     color: #87cefa;
 }
 
+.my-article-button {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-button {
+    border: 0;
+    border-radius: 5px;
+    background: #ff66ff;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 16px;
+    display: block;
+    max-width: 80%;
+}
+
+.delete-button {
+    border: 0;
+    border-radius: 5px;
+    background: #ff3399;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 16px;
+    display: block;
+    margin-left: 50px;
+    max-width: 80%;
+}
 /* create.blade.php, edit.blade.php */
 .article-create {
     padding-top: 50px;
