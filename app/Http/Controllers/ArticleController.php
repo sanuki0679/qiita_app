@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // Guzzle読み込み
 use GuzzleHttp\Client;
-use Mockery\Matcher\Type;
-use PSpell\Config;
+// use Mockery\Matcher\Type;
+// use PSpell\Config;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class ArticleController extends Controller
 {
@@ -27,7 +29,7 @@ class ArticleController extends Controller
         // $optionsにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
@@ -54,7 +56,7 @@ class ArticleController extends Controller
         // $optionにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
@@ -115,7 +117,7 @@ class ArticleController extends Controller
         $options = [
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
             'json' => $data,
         ];
@@ -149,7 +151,7 @@ class ArticleController extends Controller
         // $optionsにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
@@ -178,12 +180,12 @@ class ArticleController extends Controller
         $method = 'GET';
 
         // QIITA_URLの値をし取得してURLを定義
-        $url = config('qiita.url') . '/api/v2/authenticated_user/';
+        $url = config('qiita.url') . '/api/v2/authenticated_user';
 
         // $optionsにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
@@ -218,7 +220,7 @@ class ArticleController extends Controller
         // $optionsにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
@@ -273,7 +275,7 @@ class ArticleController extends Controller
 
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
             ],
@@ -308,7 +310,7 @@ class ArticleController extends Controller
         // $optionsにトークンを指定
         $options = [
             'headers' => [
-                'Authorization' => 'Bearer ' . config('qiita.token'),
+                'Authorization' => 'Bearer ' . Crypt::decryptString(Auth::user()->token),
             ],
         ];
 
