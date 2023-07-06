@@ -43,7 +43,7 @@
                             <label for="token" class="col-md-4 col-form-label text-md-right">{{ __('Qiita Access Token') }}</label>
 
                             <div class="col-md-6">
-                                <input id="token" type="password" class="form-control @enderror" name="token" value="{{ old('token') }}" required autocomplete="token">
+                                <input id="token" type="password" class="form-control @error('token') is-invalid @enderror" name="token" value="{{ old('token') }}" required autocomplete="token">
 
                                 @error('token')
                                     <span class="invalid-feedback" role="alert">
